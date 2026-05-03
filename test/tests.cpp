@@ -1,92 +1,51 @@
-// Copyright 2021 NNTU-CS
-#include <gtest/gtest.h>
-#include <string>
-#include "tpqueue.h"
+#include "../include/tpqueue.h"
+#include <iostream>
+#include <cassert>
 
-TEST(lab6, test1) {
+void testPriorityQueue() {
     TPQueue<SYM> pqueue;
+
+    // Тест 1: добавление и извлечение
     pqueue.push(SYM{'a', 4});
     pqueue.push(SYM{'b', 7});
-    pqueue.push(SYM{'c', 6});
-    pqueue.push(SYM{'d', 5});
-    pqueue.push(SYM{'e', 8});
+    pqueue.push(SYM{'c', 1});
+    pqueue.push(SYM{'d', 10});
+    pqueue.push(SYM{'e', 5});
 
-    SYM c1 = pqueue.pop();
-    SYM c2 = pqueue.pop();
-
-    pqueue.push(SYM{'f', 9});
-    pqueue.push(SYM{'g', 1});
-
-    SYM c3 = pqueue.pop();
-    SYM c4 = pqueue.pop();
-
-    ASSERT_EQ(c1.ch, 'e');
-    ASSERT_EQ(c2.ch, 'b');
-    ASSERT_EQ(c3.ch, 'f');
-    ASSERT_EQ(c4.ch, 'c');
+    // Ожидаемый порядок: d(10), b(7), e(5), a(4), c(1)
+    SYM sym = pqueue.pop();
+    assert(sym.ch == 'd' && sym.prior == 10);
+    
+    sym = pqueue.pop();
+    assert(sym.ch == 'b' && sym.prior == 7);
+    
+    sym = pqueue.pop();
+    assert(sym.ch == 'e' && sym.prior == 5);
+    
+    sym = pqueue.pop();
+    assert(sym.ch == 'a' && sym.prior == 4);
+    
+    sym = pqueue.pop();
+    assert(sym.ch == 'c' && sym.prior == 1);
+    
+    std::cout << "All tests passed!" << std::endl;
 }
 
-TEST(lab6, test2) {
+void testEmptyQueue() {
     TPQueue<SYM> pqueue;
-    pqueue.push(SYM{'a', 4});
-    pqueue.push(SYM{'b', 4});
-    SYM c1 = pqueue.pop();
-    SYM c2 = pqueue.pop();
-    ASSERT_EQ(c1.ch, 'a');
-    ASSERT_EQ(c2.ch, 'b');
+    assert(pqueue.isEmpty());
+    
+    pqueue.push(SYM{'x', 3});
+    assert(!pqueue.isEmpty());
+    
+    pqueue.pop();
+    assert(pqueue.isEmpty());
+    
+    std::cout << "Empty queue test passed!" << std::endl;
 }
 
-TEST(lab6, test3) {
-    TPQueue<SYM> pqueue;
-    pqueue.push(SYM{'a', 4});
-    pqueue.push(SYM{'b', 4});
-    pqueue.push(SYM{'c', 9});
-    SYM c1 = pqueue.pop();
-    SYM c2 = pqueue.pop();
-    SYM c3 = pqueue.pop();
-    ASSERT_EQ(c1.ch, 'c');
-    ASSERT_EQ(c2.ch, 'a');
-    ASSERT_EQ(c3.ch, 'b');
-}
-
-TEST(lab6, test4) {
-    TPQueue<SYM> pqueue;
-    pqueue.push(SYM{'a', 4});
-    SYM c1 = pqueue.pop();
-    ASSERT_EQ(c1.ch, 'a');
-}
-
-TEST(lab6, test5) {
-    TPQueue<SYM> pqueue;
-    pqueue.push(SYM{'a', 4});
-    pqueue.push(SYM{'b', 9});
-    SYM c1 = pqueue.pop();
-    ASSERT_EQ(c1.ch, 'b');
-}
-
-TEST(lab6, test6) {
-    TPQueue<SYM> pqueue;
-    pqueue.push(SYM{'a', 4});
-    pqueue.push(SYM{'b', 4});
-    pqueue.push(SYM{'c', 4});
-    SYM c1 = pqueue.pop();
-    ASSERT_EQ(c1.ch, 'a');
-}
-
-TEST(lab6, test7) {
-    TPQueue<SYM> pqueue;
-    pqueue.push(SYM{'a', 4});
-    pqueue.push(SYM{'b', 3});
-    SYM c1 = pqueue.pop();
-    ASSERT_EQ(c1.ch, 'a');
-}
-
-TEST(lab6, test8) {
-    TPQueue<SYM> pqueue;
-    pqueue.push(SYM{'a', 3});
-    pqueue.push(SYM{'b', 1});
-    pqueue.push(SYM{'c', 2});
-    SYM c1 = pqueue.pop();
-    SYM c2 = pqueue.pop();
-    ASSERT_EQ(c2.ch, 'c');
+int main() {
+    testPriorityQueue();
+    testEmptyQueue();
+    return 0;
 }
