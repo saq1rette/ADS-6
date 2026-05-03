@@ -1,8 +1,9 @@
-// Copyright 2020 GHA Test Team
+// test/AllTests.cpp (пример)
+void testPriorityQueue();
+void testEmptyQueue();
 
-#include <gtest/gtest.h>
-
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+int main() {
+    testPriorityQueue();
+    testEmptyQueue();
+    return 0;
 }
